@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"target": "ES2017",
+		"module": "ESNext",
+		"outDir": "dist/",
+		"esModuleInterop": true,
+		"sourceMap": true,
+		"moduleResolution": "Node"
+	},
+	"include": [
+		"src/**/*.ts"
+	],
+	"exclude": [
+		"node_modules"
+	]
+}

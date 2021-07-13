@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>serverhiccups</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
+		<meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">
+		<link rel="stylesheet" href="https://use.typekit.net/uwr8lod.css">
+		<link rel="icon" href="/favicon.ico">
+	</head>
+	<body>
+		<div class="main-column">
+			<h1>serverhiccups</h1>
+			<h2>About Me</h2>
+			<p>
+			I'm a programmer currently based in New Zealand. My languages of choice are Javascript and C++, but I'm comfortable with Java too. Check out my projects to see what I'm up to!
+			</p>
+			<h2>Projects</h2>
+			<% pinnedRepoes.forEach((repo) => { %>
+				<div class="project">
+					<h3><%= repo.name %></h3>
+					<p><%- repo.description %></p>
+					<a href="<%- repo.url %>">Github</a>
+				</div>
+			<% }); %>
+			<h2>Contact</h2>
+			<p>You can contact me by emailing hiccup (at) this domain<br>or tweet me <a href="htpps://twitter.com/serverhiccups">@serverhiccups</a></p>
+		</div>
+		<div id="accent-boxes">
+			<div id="accent-box"></div>
+			<div id="accent-box"></div>
+			<div id="accent-box"></div>
+			<div id="accent-box"></div>
+			<div id="accent-box"></div>
+			<div id="accent-box"></div>
+			<div id="accent-box"></div>
+			<div id="accent-box"></div>
+			<div id="accent-box"></div>
+			<div id="accent-box"></div>
+			<div id="accent-box"></div>
+		</div>
+	</body>
+</html>

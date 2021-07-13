@@ -1,0 +1,212 @@
+//@use 'parallax';
+@use "sass:math";
+@use "sass:list";
+
+@import "./normalize.css";
+
+$main-column-width: 30rem;
+$mobile-snap-width: 32rem;
+
+$light-text-color: black;
+$light-background-color: white;
+$dark-text-color: white;
+$dark-background-color: black;
+
+@mixin theme($mode: light) {
+	@media (prefers-color-scheme: dark) {
+		@content
+	}
+}
+
+@mixin columnPosition($vertical: 0, $horizontal: 0) {
+	position: absolute;
+	top: $vertical;
+	left: 50%;
+	transform: translateX(calc(#{$horizontal} + -50%));
+}
+
+@mixin stripey {
+	background: repeating-linear-gradient(
+	225deg,
+	#00c2ed,
+	#00c2ed 1rem,
+	#00ff1b 1rem,
+	#00ff1b 2rem
+	);	
+	@include theme(dark) {
+		background: repeating-linear-gradient( 225deg, #23b3d3, #23b3d3 1rem, #ad00ed 1rem, #ad00ed 2rem );
+	}
+}
+
+@mixin outlineBox {
+	padding-left: .25rem;
+	padding-right: .25rem;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	outline: .3rem $light-text-color solid;
+	background: $light-background-color;
+	@include theme(dark) {
+		outline: .3rem $dark-text-color solid;
+		background: $dark-background-color;
+	}
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "museo-slab", serif;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	overflow-x: hidden;
+	background-color: $light-background-color;
+	@include theme(dark) {
+		background-color: $dark-background-color;
+	}
+}
+
+html, body {
+	overflow-x: hidden;
+	overflow-y: scroll;
+	height: 100%;
+	width: 100%;
+	transform: translateX(0);
+	color: $light-text-color;
+	@include theme(dark) {
+		color: $dark-text-color;
+	}
+}
+
+.emoji {
+	display: inline;
+	height: 1em;
+	width: auto;
+}
+
+.main-column {
+	display: flex;
+	width: 100%;
+	max-width: $main-column-width;
+	flex-direction: column;
+	align-items: flex-start;
+	//padding-left: .5rem;
+	//padding-right: .5rem;
+}
+
+#accent-boxes > * {
+	z-index: -9999;
+	width: 7.5rem;
+	height: 7.5rem;
+	@include stripey;
+}
+
+.main-column {
+	& > h1, & > h2, & > h3, & > h4, & > h5, & > h6 {
+		@include outlineBox;
+	}
+
+	& > p {
+		max-width: $main-column-width * math.div(2, 3);
+		@include outlineBox;
+	}
+
+
+}
+
+a {
+	color: $light-text-color;
+	@include theme(dark) {
+		color: $dark-text-color;
+	}
+}
+
+.project {
+	@include outlineBox;
+	aspect-ratio: 1 / 1;
+	margin-top: .5rem;
+	margin-bottom: .5rem;
+
+	h3, p {
+		margin-top: .5rem;
+		margin-bottom: .5rem;
+	}
+	p {
+		max-width: $main-column-width * math.div(1, 3);
+	}
+
+	$push-in: 3.5rem;
+
+	& {
+		margin-left: $push-in;
+	}
+
+	&:nth-of-type(odd) {
+		@media (min-width: $mobile-snap-width) {
+			transform: translateY(5rem);
+		}
+	}
+
+	$project-count: 6;
+
+	@for $i from 1 to $project-count {
+		&:nth-of-type(#{$i}) {
+			@if list.index(2 3 5, $i) {
+				align-self: flex-end;
+				margin-left: 0;
+				margin-right: $push-in;
+			}
+			@if $i == 3 {
+				margin-right: $push-in - 3rem;
+			}
+			@if $i == 4 {
+				margin-left: $push-in - 2rem;
+			}
+			@if $i == 5 {
+				margin-right: $push-in - 2rem;
+				@media(min-width: $mobile-snap-width) {
+						transform: translateY(3rem);
+				}
+			}
+		}
+	}
+}
+
+.main-column > * {
+	&:nth-child(2) {
+		align-self: flex-end;
+	}
+	&:nth-child(3) {
+		margin-bottom: 4rem;
+	}
+	&:nth-child(10) {
+		margin-bottom: 2.5rem;
+	}
+	&:nth-child(11) {
+		align-self: flex-end;
+	}
+}
+
+$box-positions: [
+	-1rem, -1rem,
+	13rem, 4rem,
+	26rem, -9rem,
+	42rem, -1rem,
+	56rem, -14rem,
+	40rem, -34rem,
+	20rem, 34rem,
+	68rem, 20rem,
+	80rem, 0rem,
+	88rem, -28rem,
+	97rem, 7rem
+];
+
+
+#accent-boxes > * {
+	@for $i from 1 to math.div(list.length($box-positions), 2) + 1 {
+		&:nth-child(#{$i}) {
+			@include columnPosition(list.nth($box-positions, ($i * 2) - 1), list.nth($box-positions, $i *2));
+		}
+	}
+}
